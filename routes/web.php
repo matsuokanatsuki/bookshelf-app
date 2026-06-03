@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// 仮ルート
 Route::middleware('auth')->group(function () {
-    Route::get('/books', fn() => '本の一覧（準備中）')->name('books.index');
+    Route::resource('books', BookController::class);
 });
