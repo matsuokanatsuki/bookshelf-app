@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Genre;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
@@ -45,28 +46,36 @@ class BookController extends Controller
             ->route('books.index')
             ->with('success', '書籍を登録しました。');
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function show(Book $book)
     {
-        //
+        $book->load('genres', 'creator');
+        return view('books.show', compact('book'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Book $book)
     {
-        //
+        $genres = Genre::orderBy('name')->get();
+
+        return view('books.edit', compact('book', 'genres'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $book->update([
+            'title' => $request->title,
+            'author' => $request->author,
+            'isbn' => $request->isbn,
+            'published_at' => $request->published_at,
+            'description' => $request->description,
+            'image_url' => $request->image_url,
+        ]);
+
+        $book->genres()->sync($request->genres);
+
+        return redirect()
+            ->route('books.show', $book)
+            ->with('success', '書籍を更新しました。');
     }
 
     /**
