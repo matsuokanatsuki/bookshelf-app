@@ -55,6 +55,8 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
+        $this->authorize('update', $book);
+
         $genres = Genre::orderBy('name')->get();
 
         return view('books.edit', compact('book', 'genres'));
@@ -62,6 +64,8 @@ class BookController extends Controller
 
     public function update(UpdateBookRequest $request, Book $book)
     {
+        $this->authorize('update', $book);
+
         $book->update([
             'title' => $request->title,
             'author' => $request->author,
@@ -78,11 +82,14 @@ class BookController extends Controller
             ->with('success', '書籍を更新しました。');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Book $book)
     {
-        //
+        $this->authorize('delete', $book);
+
+        $book->delete();
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', '書籍を削除しました。');
     }
 }
