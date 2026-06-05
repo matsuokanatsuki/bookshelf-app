@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Model\User;
-use App\Model\Review;
-use App\Model\Genre;
+use App\Models\User;
+use App\Models\Review;
+use App\Models\Genre;
 
 class Book extends Model
 {

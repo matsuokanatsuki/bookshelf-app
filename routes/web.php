@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// 仮ルート
+// Route::resource('books', BookController::class)
+//     ->only(['index', 'show']);
+
 Route::middleware('auth')->group(function () {
-    Route::get('/books', fn() => '本の一覧（準備中）')->name('books.index');
+    Route::resource('books', BookController::class);
+        // ->except(['index', 'show']);
 });
+
+Route::get('/review', fn() => view('review'))->name('review.index');
+Route::get('/ranking', fn() => view('ranking'))->name('ranking.index');
+Route::get('/favorites', fn() => view('favorites'))->name('favorites.index');
+Route::get('/genres', fn() => view('genres'))->name('genres.index');
