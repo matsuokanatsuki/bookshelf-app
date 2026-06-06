@@ -14,11 +14,10 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('books', BookController::class);
         // ->except(['index', 'show']);
-});
-
-Route::middleware('auth')->group(function () {
     Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    // Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 Route::get('/ranking', fn() => view('ranking'))->name('ranking.index');

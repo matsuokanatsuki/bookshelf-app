@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
 
 class ReviewController extends Controller
 {
@@ -33,14 +34,35 @@ class ReviewController extends Controller
             ->with('success', 'レビューを投稿しました。');
     }
 
-    // public function destroy(Review $review)
-    // {
-    //     $this->authorize('delete', $review);
+    public function edit(Review $review)
+    {
+        $this->authorize('update', $review);
 
-    //     $review->delete();
+        return view('reviews.edit', compact('review'));
+    }
 
-    //     return redirect()
-    //         ->route('books.show', $review->book_id)
-    //         ->with('success', 'レビューを削除しました。');
-    // }
+    public function update(UpdateReviewRequest $request, Review $review)
+    {
+        $this->authorize('update', $review);
+
+        $review->update([
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return redirect()
+            ->route('books.show', $review->book_id)
+            ->with('success', 'レビューを更新しました。');
+    }
+
+    public function destroy(Review $review)
+    {
+        $this->authorize('delete', $review);
+
+        $review->delete();
+
+        return redirect()
+            ->route('books.show', $review->book_id)
+            ->with('success', 'レビューを削除しました。');
+    }
 }

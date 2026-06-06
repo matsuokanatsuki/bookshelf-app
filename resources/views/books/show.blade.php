@@ -147,6 +147,16 @@
                                             @if($userReview->comment)
                                                 <p>{{ $userReview->comment }}</p>
                                             @endif
+                                            @can('update', $userReview)
+                                                <div class="flex items-center gap-2">
+                                                    <a href="{{ route('reviews.edit', $userReview) }}" class="text-sm text-gray-500 hover:text-gray-700">編集</a>
+                                                    <form action="{{ route('reviews.destroy', $userReview) }}" method="POST" onsubmit="return confirm('本当に削除しますか？')" novalidate>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-sm text-red-500 hover:text-red-700">削除</button>
+                                                    </form>
+                                                </div>
+                                            @endcan
                                 </div>
                             @endif
                         @else
