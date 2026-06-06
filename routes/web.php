@@ -2,17 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -26,7 +16,11 @@ Route::middleware('auth')->group(function () {
         // ->except(['index', 'show']);
 });
 
-Route::get('/review', fn() => view('review'))->name('review.index');
+Route::middleware('auth')->group(function () {
+    Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    // Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
+
 Route::get('/ranking', fn() => view('ranking'))->name('ranking.index');
 Route::get('/favorites', fn() => view('favorites'))->name('favorites.index');
 Route::get('/genres', fn() => view('genres'))->name('genres.index');
