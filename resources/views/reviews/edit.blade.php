@@ -19,14 +19,29 @@
 
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">評価 <span class="text-red-500">*</span></label>
-                            <div class="flex gap-2">
+                            <!-- <div class="flex gap-2">
                                 @for($i = 1; $i <= 5; $i++)
                                     <label class="cursor-pointer">
                                         <input type="radio" name="rating" value="{{ $i }}" class="sr-only peer" {{ old('rating', $review->rating) == $i ? 'checked' : '' }} required>
                                         <span class="text-2xl peer-checked:text-yellow-400 text-gray-300 hover:text-yellow-400">★</span>
                                     </label>
                                 @endfor
-                            </div>
+                            </div> -->
+                                <input type="hidden"
+                                    id="rating"
+                                    name="rating"
+                                    value="{{ old('rating', $review->rating) }}">
+
+                                <div id="star-rating" class="flex gap-1">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <button
+                                            type="button"
+                                            class="star text-3xl text-gray-300"
+                                            data-value="{{ $i }}">
+                                            ★
+                                        </button>
+                                    @endfor
+                                </div>
                             @error('rating')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -52,3 +67,39 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+
+    function updateStars(value) {
+
+        stars.forEach((star, index) => {
+
+            if (index < value) {
+                star.classList.remove('text-gray-300');
+                star.classList.add('text-yellow-400');
+            } else {
+                star.classList.remove('text-yellow-400');
+                star.classList.add('text-gray-300');
+            }
+        });
+    }
+
+    updateStars(Number(ratingInput.value));
+
+    stars.forEach(star => {
+
+        star.addEventListener('click', () => {
+
+            const value = star.dataset.value;
+
+            ratingInput.value = value;
+
+            updateStars(Number(value));
+        });
+    });
+});
+</script>

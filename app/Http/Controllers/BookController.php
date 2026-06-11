@@ -49,8 +49,16 @@ class BookController extends Controller
 
     public function show(Book $book)
     {
-        $book->load('genres', 'creator');
-        return view('books.show', compact('book'));
+        $book->load('genres', 'creator', 'reviews.user');
+
+        $userReview = null;
+
+        if (auth()->check()) {
+            $userReview = $book->reviews()
+                ->where('user_id', auth()->id())
+                ->first();
+        }
+        return view('books.show', compact('book', 'userReview'));
     }
 
     public function edit(Book $book)
