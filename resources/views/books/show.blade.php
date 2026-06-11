@@ -27,7 +27,7 @@
                         <div class="md:w-2/3">
                             <div class="flex items-start justify-between mb-4">
                                 <h1 class="text-2xl font-bold">{{ $book->title }}</h1>
-{{--
+
                                 <!-- お気に入りボタン -->
                                 @auth
                                     @if(Auth::user()->favoriteBooks->contains($book->id))
@@ -56,7 +56,7 @@
                                         </svg>
                                     </a>
                                 @endauth
---}}
+
                             </div>
 
                             <p class="text-gray-600 mb-2"><strong>著者:</strong> {{ $book->author }}</p>
