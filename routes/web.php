@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\RankingController;
 
 
 Route::get('/', function () {
