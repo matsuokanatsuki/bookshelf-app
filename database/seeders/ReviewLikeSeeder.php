@@ -13,7 +13,7 @@ class ReviewLikeSeeder extends Seeder
     public function run(): void
     {
         foreach (Review::all() as $review) {
-            $likerIds = User::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $likerIds = User::where('id', '!=', $review->user_id)->inRandomOrder()->take(rand(1, 3))->pluck('id');
             $review->likedByUsers()->syncWithoutDetaching($likerIds);
         }
     }
