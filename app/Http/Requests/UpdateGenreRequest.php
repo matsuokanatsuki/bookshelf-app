@@ -26,4 +26,14 @@ class UpdateGenreRequest extends FormRequest
             'name' => ['required', 'string', 'max:50', Rule::unique('genres')->ignore($this->genre)],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'ジャンル名は必須です。',
+            'name.string' => 'ジャンル名は文字列で入力してください。',
+            'name.max' => 'ジャンル名は50文字以内で入力してください。',
+            'name.unique' => 'このジャンル名は既に存在しています。',
+        ];
+    }
 }
