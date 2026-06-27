@@ -163,7 +163,7 @@ class BookControllerTest extends TestCase
         $otherUser = User::factory()->create();
         $this->actingAs($otherUser);
         $response = $this->get("/books/{$book->id}/edit");
-        $response->assertStatus(403);
+        $response->assertForbidden();
     }
 
     /**
@@ -263,6 +263,6 @@ class BookControllerTest extends TestCase
         $otherUser = User::factory()->create();
         $this->actingAs($otherUser);
         $response = $this->delete("/books/{$book->id}");
-        $response->assertStatus(403);
+        $response->assertForbidden();
     }
 }

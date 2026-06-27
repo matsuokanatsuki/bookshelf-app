@@ -32,4 +32,11 @@ class Review extends Model
     {
         return $this->belongsToMany(User::class,'likes');
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function ($review) {
+            $review->likedByUsers()->detach();
+        });
+    }
 }
