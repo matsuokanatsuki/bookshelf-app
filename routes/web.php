@@ -14,8 +14,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::resource('books', BookController::class)
-    ->except(['index', 'show']);
+    Route::resource('books', BookController::class)->except(['index', 'show']);
     Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
     Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
@@ -27,6 +26,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/books/show/{book}', [BookController::class, 'show'])->name('books.show');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
