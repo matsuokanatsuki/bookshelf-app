@@ -28,4 +28,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
-// Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
+Route::get('/', function () {
+    return redirect()->route('books.index');
+})->name('home');
