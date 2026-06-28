@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RankingControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * ユーザー・ゲストは/rankingでランキングページを表示できる
      */
@@ -69,5 +69,4 @@ class RankingControllerTest extends TestCase
         $response = $this->get('/ranking');
         $response->assertSeeInOrder([$book1->title, $book2->title]);
     }
-
 }

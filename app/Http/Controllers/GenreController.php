@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Genre;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
+use App\Models\Genre;
 
 class GenreController extends Controller
 {
     public function index()
     {
         $genres = Genre::withCount('books')->orderBy('name')->paginate(10);
+
         return view('genres.index', compact('genres'));
     }
 
@@ -34,6 +34,7 @@ class GenreController extends Controller
     public function show(Genre $genre)
     {
         $books = $genre->books()->with('genres')->paginate(10);
+
         return view('genres.show', compact('genre', 'books'));
     }
 

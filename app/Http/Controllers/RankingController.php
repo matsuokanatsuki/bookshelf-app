@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Book;
-use App\Models\Review;
 
 class RankingController extends Controller
 {
     public function index()
     {
         $rankedBooks = Book::withAvg('reviews', 'rating')->withCount('reviews')->whereHas('reviews')
-        ->orderBy('reviews_avg_rating', 'desc')->orderBy('reviews_count', 'desc')
-        ->limit(10)->get();
+            ->orderBy('reviews_avg_rating', 'desc')->orderBy('reviews_count', 'desc')
+            ->limit(10)->get();
+
         return view('ranking.index', compact('rankedBooks'));
     }
 }

@@ -3,10 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
-use App\Models\User;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ReviewControllerTest extends TestCase
@@ -39,6 +38,7 @@ class ReviewControllerTest extends TestCase
             'comment' => 'とても面白かったです。',
         ]);
     }
+
     /**
      * バリデーションエラーが発生した場合、エラーメッセージが表示される
      */
@@ -70,7 +70,7 @@ class ReviewControllerTest extends TestCase
         ]);
 
         // 最初のレビューを作成
-       $review = Review::factory()->create([
+        $review = Review::factory()->create([
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);
@@ -102,7 +102,7 @@ class ReviewControllerTest extends TestCase
     {
         $book = Book::factory()->create();
 
-      $response = $this->post(route('reviews.store', $book), [
+        $response = $this->post(route('reviews.store', $book), [
             'book_id' => $book->id,
             'rating' => 5,
             'comment' => 'とても面白かったです。',
@@ -196,6 +196,7 @@ class ReviewControllerTest extends TestCase
             'comment' => 'とても面白かったです。',
         ]);
     }
+
     /**
      * バリデーションエラーが発生した場合、エラーメッセージが表示される
      */
@@ -299,7 +300,7 @@ class ReviewControllerTest extends TestCase
 
         $liker = User::factory()->create();
         $review->likedByUsers()->attach($liker->id);
-   
+
         $response = $this
             ->actingAs($user)
             ->delete(route('reviews.destroy', $review));

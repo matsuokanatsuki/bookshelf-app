@@ -4,22 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Review;
-use App\Models\Genre;
 
 class Book extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-    'title',
-    'author',
-    'isbn',
-    'published_at',
-    'description',
-    'image_url',
-    'created_by',
+        'title',
+        'author',
+        'isbn',
+        'published_at',
+        'description',
+        'image_url',
+        'created_by',
     ];
 
     public function creator()
@@ -47,5 +44,4 @@ class Book extends Model
             'favorites'
         );
     }
-
 }

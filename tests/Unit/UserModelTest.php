@@ -1,17 +1,17 @@
 <?php
 
 namespace Tests\Unit;
+
 use App\Models\Book;
-use App\Models\Genre;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserModelTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_user_has_many_books()
     {
         $user = User::factory()->create();

@@ -1,17 +1,17 @@
 <?php
 
 namespace Tests\Unit;
+
 use App\Models\Book;
-use App\Models\Genre;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReviewModelTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_review_belongs_to_user()
     {
         $user = User::factory()->create();

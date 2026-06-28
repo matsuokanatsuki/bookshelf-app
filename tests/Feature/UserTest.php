@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * ゲストは/loginが表示される
      */
@@ -19,6 +19,7 @@ class UserTest extends TestCase
         $response->assertOk();
         $response->assertSee('ログイン');
     }
+
     /**
      * バリデーション通過時はログインできる
      */
@@ -52,6 +53,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
         $this->assertGuest();
     }
+
     /**
      * 認証済みユーザーは/loginにアクセスすると/へリダイレクトされる
      */
@@ -127,8 +129,8 @@ class UserTest extends TestCase
     }
 
     /**
-    * ゲストは/homeにアクセスすると/booksにリダイレクトされる
-    */
+     * ゲストは/homeにアクセスすると/booksにリダイレクトされる
+     */
     public function test_guest_user_is_redirected_from_home_to_books(): void
     {
         $response = $this
@@ -138,8 +140,8 @@ class UserTest extends TestCase
     }
 
     /**
-    * 認証済みユーザーは/homeにアクセスすると/booksにリダイレクトされる
-    */
+     * 認証済みユーザーは/homeにアクセスすると/booksにリダイレクトされる
+     */
     public function test_authenticated_user_is_redirected_from_home_to_books(): void
     {
         $user = User::factory()->create();

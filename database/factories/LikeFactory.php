@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Like;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Like>
+ * @extends Factory<Like>
  */
 class LikeFactory extends Factory
 {
@@ -17,8 +20,8 @@ class LikeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
-            'review_id' => \App\Models\Review::factory(),
+            'user_id' => User::factory(),
+            'review_id' => Review::factory(),
         ];
     }
 }

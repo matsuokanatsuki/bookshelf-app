@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -37,7 +36,7 @@ class UserSeeder extends Seeder
                 'name' => '高橋健太',
                 'email' => 'takahashi@example.com',
                 'password' => Hash::make('password'),
-            ]
+            ],
         ];
 
         foreach ($users as $user) {

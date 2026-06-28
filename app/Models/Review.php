@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Book;
 
 class Review extends Model
 {
@@ -30,7 +28,7 @@ class Review extends Model
 
     public function likedByUsers()
     {
-        return $this->belongsToMany(User::class,'likes');
+        return $this->belongsToMany(User::class, 'likes');
     }
 
     protected static function booted(): void

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BookResource;
 use App\Http\Requests\Api\ApiStoreBookRequest;
 use App\Http\Requests\Api\ApiUpdateBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -14,18 +14,20 @@ class BookController extends Controller
     /**
      * 一覧取得
      */
-    public function index() : AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         $books = Book::with('genres')->withAvg('reviews', 'rating')->latest()->paginate(10);
+
         return BookResource::collection($books);
     }
 
     /**
      * 書籍詳細取得
      */
-    public function show(Book $book) : BookResource
+    public function show(Book $book): BookResource
     {
         $book->load('genres', 'creator', 'reviews.user', 'reviews.likedByUsers');
+
         return new BookResource($book);
     }
 
@@ -55,7 +57,7 @@ class BookController extends Controller
         return response()->json([
             'message' => '書籍を登録しました。',
             'data' => new BookResource($book),
-        ],201);
+        ], 201);
     }
 
     /**

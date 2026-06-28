@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\Favorite;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Favorite>
+ * @extends Factory<Favorite>
  */
 class FavoriteFactory extends Factory
 {
@@ -17,8 +20,8 @@ class FavoriteFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
-            'book_id' => \App\Models\Book::factory(),
+            'user_id' => User::factory(),
+            'book_id' => Book::factory(),
         ];
     }
 }

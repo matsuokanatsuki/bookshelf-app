@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FavoriteControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 認証済みユーザーはお気に入りを追加できる
      */

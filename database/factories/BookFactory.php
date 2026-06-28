@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Book>
+ * @extends Factory<Book>
  */
 class BookFactory extends Factory
 {
@@ -23,7 +25,7 @@ class BookFactory extends Factory
             'published_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),
             'image_url' => $this->faker->imageUrl(),
-            'created_by' => \App\Models\User::factory(),
+            'created_by' => User::factory(),
         ];
     }
 }

@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\Book;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LikeControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 認証済みユーザーはレビューに対していいねを追加できる
      */
@@ -35,7 +34,7 @@ class LikeControllerTest extends TestCase
             'review_id' => $review->id,
         ]);
     }
-    
+
     /**
      * 認証済みユーザーはレビューに対していいねを解除できる
      */

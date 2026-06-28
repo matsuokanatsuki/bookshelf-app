@@ -3,15 +3,15 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
-use App\Models\User;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * /api/v1/booksが表示される
      */
@@ -108,8 +108,8 @@ class ApiTest extends TestCase
                 ],
                 'reviews_count',
                 'average_rating',
-                ],
-            ]);
+            ],
+        ]);
     }
 
     /**
@@ -176,6 +176,7 @@ class ApiTest extends TestCase
             'created_by' => $user->id,
         ]);
     }
+
     /**
      * ISBNが重複している場合は/api/v1/booksにPOSTリクエストを送信できず、エラーが返る
      */
@@ -374,6 +375,4 @@ class ApiTest extends TestCase
             'id' => $book->id,
         ]);
     }
-
 }
-

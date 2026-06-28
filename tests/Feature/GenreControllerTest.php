@@ -6,12 +6,12 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GenreControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 認証済みユーザーはジャンル一覧ページを表示できる
      */
@@ -142,11 +142,11 @@ class GenreControllerTest extends TestCase
         $genre = Genre::factory()->create();
 
         $response = $this
-                ->actingAs($user)
-                ->from(route('genres.edit', $genre))
-                ->put(route('genres.update', $genre), [
-            'name' => '更新されたジャンル',
-        ]);
+            ->actingAs($user)
+            ->from(route('genres.edit', $genre))
+            ->put(route('genres.update', $genre), [
+                'name' => '更新されたジャンル',
+            ]);
 
         $response->assertRedirect(route('genres.index'));
         $this->assertDatabaseHas('genres', [
@@ -167,8 +167,8 @@ class GenreControllerTest extends TestCase
             ->actingAs($user)
             ->from(route('genres.edit', $genre))
             ->put(route('genres.update', $genre), [
-            'name' => '',
-        ]);
+                'name' => '',
+            ]);
 
         $response->assertSessionHasErrors('name');
         $response->assertRedirect(route('genres.edit', $genre));
@@ -177,6 +177,7 @@ class GenreControllerTest extends TestCase
             'name' => $genre->name,
         ]);
     }
+
     /**
      * 未認証ユーザーはジャンルを更新できず、ログインページにリダイレクトされる
      */
@@ -238,9 +239,9 @@ class GenreControllerTest extends TestCase
         $book->genres()->attach($genre->id);
 
         $response = $this
-                ->actingAs($user)
-                ->from(route('genres.index'))
-                ->delete(route('genres.destroy', $genre));
+            ->actingAs($user)
+            ->from(route('genres.index'))
+            ->delete(route('genres.destroy', $genre));
 
         $response->assertSessionHas('error');
         $response->assertRedirect(route('genres.index'));

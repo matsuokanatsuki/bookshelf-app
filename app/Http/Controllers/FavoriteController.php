@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Favorite;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +25,6 @@ class FavoriteController extends Controller
     {
         $books = Auth::user()->favoriteBooks()->with('genres')->withAvg('reviews', 'rating')->latest()->paginate(10);
 
-        return view('favorites.index',compact('books'));
-        }
+        return view('favorites.index', compact('books'));
+    }
 }

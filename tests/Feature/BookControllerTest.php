@@ -3,26 +3,26 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
-use App\Models\User;
+use App\Models\Favorite;
 use App\Models\Genre;
 use App\Models\Review;
-use App\Models\Favorite;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class BookControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * ユーザー・ゲストは/booksで書籍一覧ページを表示できる
      */
-
     public function test_book_index_returns_successful_response(): void
     {
         $response = $this->get('/books');
         $response->assertStatus(200);
     }
+
     /**
      * 認証済みユーザーは/books/createで書籍登録ページを表示できる
      */
@@ -34,6 +34,7 @@ class BookControllerTest extends TestCase
         $response = $this->get('/books/create');
         $response->assertStatus(200);
     }
+
     /**
      * 未認証ユーザーは/books/createで書籍登録ページを表示できず、ログインページにリダイレクトされる
      */
@@ -66,6 +67,7 @@ class BookControllerTest extends TestCase
         $response->assertRedirect('/books');
         $this->assertDatabaseHas('books', ['title' => 'テスト書籍']);
     }
+
     /**
      * 未認証ユーザーは書籍を作成できず、ログインページにリダイレクトされる
      */
@@ -84,6 +86,7 @@ class BookControllerTest extends TestCase
 
         $response->assertRedirect('/login');
     }
+
     /**
      * バリデーションエラーが発生した場合、エラーメッセージが表示される
      */

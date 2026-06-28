@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Book;
-use App\Models\Genre;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Book;
+use App\Models\Genre;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
@@ -58,6 +57,7 @@ class BookController extends Controller
                 ->where('user_id', auth()->id())
                 ->first();
         }
+
         return view('books.show', compact('book', 'userReview'));
     }
 

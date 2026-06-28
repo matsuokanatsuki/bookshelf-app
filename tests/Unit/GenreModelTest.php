@@ -1,15 +1,16 @@
 <?php
 
 namespace Tests\Unit;
+
 use App\Models\Book;
 use App\Models\Genre;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class GenreModelTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_genre_has_many_books()
     {
         $genre = Genre::factory()->create();
