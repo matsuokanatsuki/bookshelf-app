@@ -7,17 +7,23 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Genre;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('genres')
-            ->withAvg('reviews', 'rating')
-            ->latest()
-            ->paginate(10);
+        $books = Book::query()
+            ->with('genres')
+            ->keyword($request->keyword)
+            ->genre($request->genre)
+            ->sort($request->sort)
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('books.index', compact('books'));
+        $genres = Genre::orderBy('name')->get();
+
+        return view('books.index', compact('books', 'genres'));
     }
 
     public function create()

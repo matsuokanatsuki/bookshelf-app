@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Book extends Model
 {
@@ -43,5 +44,52 @@ class Book extends Model
             User::class,
             'favorites'
         );
+    }
+
+    public function scopeKeyword(Builder $query, ?string $keyword): Builder
+    {
+        if (blank($keyword)) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('title', 'like', "%{$keyword}%")
+            ->orWhere('author', 'like', "%{$keyword}%");
+        });
+    }
+
+    public function scopeGenre(Builder $query, ?int $genreId): Builder
+    {
+        if (blank($genreId)) {
+            return $query;
+        }
+
+        return $query->whereHas('genres', function ($q) use ($genreId) {
+            $q->where('genres.id', $genreId);
+        });
+    }
+
+    public function scopeSort(Builder $query, ?string $sort): Builder
+    {
+        return match ($sort) {
+
+            'newest' =>
+                $query->orderByDesc('id'),
+
+            'oldest' =>
+                $query->orderBy('id'),
+
+            'title' =>
+                $query->orderBy('title'),
+
+            'rating' =>
+                $query
+                    ->withAvg('reviews', 'rating')
+                    ->orderByDesc('reviews_avg_rating'),
+
+            default =>
+                $query->orderByDesc('id'),
+
+        };
     }
 }

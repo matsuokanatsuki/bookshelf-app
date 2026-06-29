@@ -11,7 +11,7 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::where('name', '山田太郎')->first();
+        $users->random()->id;
 
         $books = [
             [

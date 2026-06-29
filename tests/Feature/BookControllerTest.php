@@ -24,6 +24,117 @@ class BookControllerTest extends TestCase
     }
 
     /**
+     * キーワード検索が正しく機能する
+     */
+    public function test_book_index_keyword_search(): void
+    {
+        $book1 = Book::factory()->create(['title' => 'Laravel入門']);
+        $book2 = Book::factory()->create(['title' => 'PHP入門']);
+
+        $response = $this->get('/books?keyword=Laravel');
+        $response->assertSee('Laravel入門');
+        $response->assertDontSee('PHP入門');
+    }
+
+    /**
+     * ジャンル検索が正しく機能する
+     */
+    public function test_book_index_genre_search(): void
+    {
+        $genre1 = Genre::factory()->create(['name' => 'ジャンルA']);
+        $genre2 = Genre::factory()->create(['name' => 'ジャンルB']);
+        $book1 = Book::factory()->create();
+        $book2 = Book::factory()->create();
+        $book1->genres()->attach($genre1->id);
+        $book2->genres()->attach($genre2->id);
+
+        $response = $this->get("/books?genre={$genre1->id}");
+        $response->assertSee($book1->title);
+        $response->assertDontSee($book2->title);
+    }
+
+    /**
+     * タイトルソート機能が正しく機能する
+     */
+    public function test_book_index_sorting(): void
+    {
+        $book1 = Book::factory()->create(['title' => 'A書籍']);
+        $book2 = Book::factory()->create(['title' => 'B書籍']);
+
+        $response = $this->get('/books?sort=title');
+        $response->assertSeeInOrder(['A書籍', 'B書籍']);
+    }
+
+    /**
+     * 新しい順ソート機能が正しく機能する
+     */
+    public function test_book_index_sorting_by_latest(): void
+    {
+        $book1 = Book::factory()->create(['created_at' => now()->subDays(1)]);
+        $book2 = Book::factory()->create(['created_at' => now()]);
+
+        $response = $this->get('/books?sort=newest');
+        $response->assertSeeInOrder([$book2->title, $book1->title]);
+    }
+
+    /**
+     * 古い順ソート機能が正しく機能する
+     */
+    public function test_book_index_sorting_by_oldest(): void
+    {
+        $book1 = Book::factory()->create(['created_at' => now()->subDays(1)]);
+        $book2 = Book::factory()->create(['created_at' => now()]);
+
+        $response = $this->get('/books?sort=oldest');
+        $response->assertSeeInOrder([$book1->title, $book2->title]);
+    }
+
+    /**
+     * 評価順ソート機能が正しく機能し、レビューがない書籍は最後に表示される
+     */
+    public function test_book_index_sorting_by_rating(): void
+    {
+        $book1 = Book::factory()->create();
+        $book2 = Book::factory()->create();
+        $book3 = Book::factory()->create();
+
+        Review::factory()->create(['book_id' => $book1->id, 'rating' => 5]);
+        Review::factory()->create(['book_id' => $book2->id, 'rating' => 3]);
+
+        $response = $this->get('/books?sort=rating');
+        $response->assertSeeInOrder([$book1->title, $book2->title, $book3->title]);
+    }
+
+    /**
+     * 検索条件を組み合わせた場合でも正しく機能する
+     */
+    public function test_book_index_combined_search_and_sorting(): void
+    {
+        $genre = Genre::factory()->create(['name' => 'ジャンルA']);
+        $book1 = Book::factory()->create(['title' => 'Laravel入門', 'created_at' => now()->subDays(1)]);
+        $book2 = Book::factory()->create(['title' => 'PHP入門', 'created_at' => now()]);
+        $book1->genres()->attach($genre->id);
+        $book2->genres()->attach($genre->id);
+
+        $response = $this->get("/books?keyword=Laravel&genre={$genre->id}&sort=newest");
+        $response->assertSee($book1->title);
+        $response->assertDontSee($book2->title);
+    }
+
+    /**
+     * 検索条件を維持したままページネーションが正しく機能する
+     */
+    public function test_search_conditions_are_preserved_in_pagination(): void
+    {
+        $genre = Genre::factory()->create();
+
+        Book::factory()->count(15)->create(['title' => 'Laravel Book']);
+        $response = $this->get('/books?keyword=Laravel&page=2');
+        $response->assertOk();
+        $response->assertSee('Laravel Book');
+    }
+
+    /**
      * 認証済みユーザーは/books/createで書籍登録ページを表示できる
      */
     public function test_authenticated_user_can_access_book_create_page(): void
