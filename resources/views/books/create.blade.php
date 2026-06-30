@@ -88,10 +88,10 @@
                     document.getElementById('description').value = data.description || '';
                     document.getElementById('image_url').value = data.image_url || '';
 
-                    if (data.published_date) {
-                        const date = new Date(data.published_date);
+                    if (data.published_at) {
+                        const date = new Date(data.published_at);
                         if (!isNaN(date)) {
-                            document.getElementById('published_date').value = date.toISOString().split('T')[0];
+                            document.getElementById('published_at').value = date.toISOString().split('T')[0];
                         }
                     }
 

@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Genre;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Services\GoogleBooksService;
 
 class BookController extends Controller
 {
@@ -105,5 +106,16 @@ class BookController extends Controller
         return redirect()
             ->route('books.index')
             ->with('success', '書籍を削除しました。');
+    }
+
+    public function searchIsbn(string $isbn, GoogleBooksService $googleBooksService)
+    {
+        $book = $googleBooksService->searchByIsbn($isbn);
+
+        if (!$book) {
+            return response()->json(['message' => '書籍が見つかりませんでした。'], 404);
+        }
+
+        return response()->json($book);
     }
 }
