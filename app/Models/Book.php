@@ -92,4 +92,9 @@ class Book extends Model
 
         };
     }
+
+    public function readingPlans()
+    {
+        return $this->hasMany(ReadingPlan::class);
+    }
 }

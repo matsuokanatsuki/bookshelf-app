@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('genres', GenreController::class);
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+    Route::resource('reading-plans', ReadingPlanController::class);
+    Route::post('/reading-plans/{readingPlan}/complete', [ReadingPlanController::class, 'complete'])->name('reading-plans.complete');
 });
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
@@ -42,5 +45,6 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/reading-plans', [ReadingPlanController::class, 'index'])->name('reading-plans.index');
+
+
 Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
