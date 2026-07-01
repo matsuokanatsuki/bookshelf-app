@@ -11,8 +11,7 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        $users->random()->id;
-
+        $users = User::all();
         $books = [
             [
                 'title' => '吾輩は猫である',
@@ -124,7 +123,7 @@ class BookSeeder extends Seeder
                     'published_at' => $book['published_at'],
                     'description' => $book['description'],
                     'image_url' => $book['image_url'],
-                    'created_by' => $user->id,
+                    'created_by' => $users->random()->id,
                 ]
             )->genres()->sync(
                 Genre::whereIn('name', $book['genres'])->pluck('id')
