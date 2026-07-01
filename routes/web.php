@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('reading-plans', ReadingPlanController::class);
     Route::post('/reading-plans/{readingPlan}/complete', [ReadingPlanController::class, 'complete'])->name('reading-plans.complete');
+
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 });
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
@@ -47,4 +50,4 @@ Route::get('/', function () {
 
 
 
-Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
