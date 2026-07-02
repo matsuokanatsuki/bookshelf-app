@@ -8,31 +8,7 @@ use App\Models\User;
 class BookPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Book $book): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
+     * 作成者のみが更新可能
      */
     public function update(User $user, Book $book): bool
     {
@@ -40,26 +16,11 @@ class BookPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * 作成者のみが削除可能
      */
     public function delete(User $user, Book $book): bool
     {
         return $user->id === $book->created_by;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Book $book): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Book $book): bool
-    {
-        //
-    }
 }

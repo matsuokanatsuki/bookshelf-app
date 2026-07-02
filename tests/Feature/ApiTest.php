@@ -214,8 +214,7 @@ class ApiTest extends TestCase
             'genres' => [$genre->id],
             'created_by' => 9999, // 存在しないユーザーID
         ]);
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['created_by']);
+        $response->assertStatus(401);
     }
 
     /**

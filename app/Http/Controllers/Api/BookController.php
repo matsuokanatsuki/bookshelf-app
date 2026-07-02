@@ -65,9 +65,7 @@ class BookController extends Controller
      */
     public function update(ApiUpdateBookRequest $request, Book $book)
     {
-        if ($request->user()->cannot('update', $book)) {
-            return response()->json(['message' => 'この書籍を更新する権限がありません。'], 403);
-        }
+        $this->authorize('update', $book);
 
         $validatedData = $request->validated();
 
@@ -96,9 +94,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        if (request()->user()->cannot('delete', $book)) {
-            return response()->json(['message' => 'この書籍を削除する権限がありません。'], 403);
-        }
+        $this->authorize('delete', $book);
 
         $book->delete();
 
