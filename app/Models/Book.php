@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class Book extends Model
 {
@@ -58,7 +58,7 @@ class Book extends Model
 
         return $query->where(function ($q) use ($keyword) {
             $q->where('title', 'like', "%{$keyword}%")
-            ->orWhere('author', 'like', "%{$keyword}%");
+                ->orWhere('author', 'like', "%{$keyword}%");
         });
     }
 
@@ -77,22 +77,17 @@ class Book extends Model
     {
         return match ($sort) {
 
-            'newest' =>
-                $query->orderByDesc('id'),
+            'newest' => $query->orderByDesc('id'),
 
-            'oldest' =>
-                $query->orderBy('id'),
+            'oldest' => $query->orderBy('id'),
 
-            'title' =>
-                $query->orderBy('title'),
+            'title' => $query->orderBy('title'),
 
-            'rating' =>
-                $query
-                    ->withAvg('reviews', 'rating')
-                    ->orderByDesc('reviews_avg_rating'),
+            'rating' => $query
+                ->withAvg('reviews', 'rating')
+                ->orderByDesc('reviews_avg_rating'),
 
-            default =>
-                $query->orderByDesc('id'),
+            default => $query->orderByDesc('id'),
 
         };
     }

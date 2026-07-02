@@ -22,5 +22,4 @@ class BookPolicy
     {
         return $user->id === $book->created_by;
     }
-
 }

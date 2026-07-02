@@ -32,7 +32,6 @@ class BookController extends Controller
         $book->load('genres', 'creator', 'reviews.user', 'reviews.likedByUsers')
             ->loadCount('reviews')
             ->loadAvg('reviews', 'rating');
-            
 
         return new BookResource($book);
     }

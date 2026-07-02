@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
-use App\Models\ReadingPlan;
 use App\Enums\ReadingPlanStatus;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreReadingPlanRequest;
 use App\Http\Requests\UpdateReadingPlanRequest;
-
+use App\Models\Book;
+use App\Models\ReadingPlan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReadingPlanController extends Controller
 {
@@ -19,22 +18,23 @@ class ReadingPlanController extends Controller
         $query = Auth::user()->readingPlans()->with('book');
 
         if ($request->filled('status')) {
-        $query->where('status', $request->status);
+            $query->where('status', $request->status);
         }
 
         $readingPlans = $query->latest()->get();
 
-        return view('reading-plans.index',[
+        return view('reading-plans.index', [
             'readingPlans' => $readingPlans,
             'currentStatus' => $request->status,
-            ]);
+        ]);
     }
 
     public function create()
     {
         // 読書計画の作成フォームを表示
         $books = Book::orderBy('title')->get();
-        return view('reading-plans.create',compact('books'));
+
+        return view('reading-plans.create', compact('books'));
     }
 
     public function store(StoreReadingPlanRequest $request)
@@ -59,6 +59,7 @@ class ReadingPlanController extends Controller
         $this->authorize('update', $readingPlan);
 
         $books = Book::orderBy('title')->get();
+
         return view('reading-plans.edit', compact('readingPlan', 'books'));
     }
 

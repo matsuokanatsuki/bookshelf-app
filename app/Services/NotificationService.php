@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\ReadingPlanStatus;
+use App\Models\ReadingPlan;
 use App\Models\User;
 use App\Notifications\ReadingPlanReminderNotification;
-use App\Models\ReadingPlan;
-use App\Enums\ReadingPlanStatus;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -60,7 +60,6 @@ class NotificationService
                 new ReadingPlanReminderNotification($plan, $timing)
             );
         });
-
 
     }
 

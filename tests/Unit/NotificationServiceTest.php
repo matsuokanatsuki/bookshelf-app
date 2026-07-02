@@ -2,17 +2,18 @@
 
 namespace Tests\Unit;
 
-use App\Services\NotificationService;
-use App\Models\User;
-use App\Models\ReadingPlan;
 use App\Models\Book;
+use App\Models\ReadingPlan;
+use App\Models\User;
 use App\Notifications\ReadingPlanReminderNotification;
+use App\Services\NotificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class NotificationServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 3日後のリーディングプランを持つユーザーに通知が作成されることを確認
      */
@@ -26,7 +27,7 @@ class NotificationServiceTest extends TestCase
             'target_date' => now()->addDays(3),
         ]);
 
-        $notificationService = new NotificationService();
+        $notificationService = new NotificationService;
         $notificationService->sendReminders();
 
         // 通知が作成されたことを確認
@@ -50,7 +51,7 @@ class NotificationServiceTest extends TestCase
             'target_date' => now()->addDays(3),
         ]);
 
-        $service = new NotificationService();
+        $service = new NotificationService;
 
         $service->sendReminders();
         $service->sendReminders();

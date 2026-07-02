@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Models\User;
 use App\Models\Book;
-use App\Models\Review;
 use App\Models\Genre;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Review;
+use App\Models\User;
 use App\Services\ReportService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReportServiceTest extends TestCase
 {
-    use refreshDatabase;
+    use RefreshDatabase;
 
     /**
      * getUserStatsメソッドが正しいsummaryを返すことを確認するテスト
@@ -29,7 +29,7 @@ class ReportServiceTest extends TestCase
         $book1->genres()->attach($genre1->id);
         $book2->genres()->attach($genre2->id);
 
-        $reportService = new ReportService();
+        $reportService = new ReportService;
         $stats = $reportService->getUserStats($user);
 
         $this->assertSame(2, $stats['summary']['books_read']);
@@ -48,7 +48,7 @@ class ReportServiceTest extends TestCase
         Review::factory()->create(['user_id' => $user->id, 'book_id' => $book1->id, 'rating' => 5]);
         Review::factory()->create(['user_id' => $user->id, 'book_id' => $book2->id, 'rating' => 4]);
 
-        $reportService = new ReportService();
+        $reportService = new ReportService;
         $stats = $reportService->getUserStats($user);
 
         $distribution = $stats['rating_distribution'];
@@ -70,7 +70,7 @@ class ReportServiceTest extends TestCase
         Review::factory()->create(['user_id' => $user->id, 'book_id' => $book1->id, 'rating' => 5]);
         Review::factory()->create(['user_id' => $user->id, 'book_id' => $book2->id, 'rating' => 4]);
 
-        $reportService = new ReportService();
+        $reportService = new ReportService;
         $stats = $reportService->getUserStats($user);
 
         $this->assertCount(2, $stats['top_rated_books']);

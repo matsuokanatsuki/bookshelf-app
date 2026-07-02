@@ -33,7 +33,7 @@ class ReviewFactory extends Factory
             'user_id' => User::factory(),
             'book_id' => Book::factory(),
             'rating' => $rating,
-            'comment' => $comments[$rating]
+            'comment' => $comments[$rating],
         ];
     }
 }

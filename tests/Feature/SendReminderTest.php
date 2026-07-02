@@ -2,17 +2,17 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\ReadingPlan;
 use App\Models\Book;
+use App\Models\ReadingPlan;
+use App\Models\User;
 use App\Notifications\ReadingPlanReminderNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SendReminderTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 期限が3日後のリーディングプランを持つユーザーに通知が送信される
      */

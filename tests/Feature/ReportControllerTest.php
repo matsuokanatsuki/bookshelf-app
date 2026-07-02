@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Book;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ReportControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 認証済みユーザーはレポートページにアクセスできる
      */
@@ -62,5 +62,3 @@ class ReportControllerTest extends TestCase
         $response->assertSee('-');
     }
 }
-
-

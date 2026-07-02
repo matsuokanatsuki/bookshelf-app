@@ -66,5 +66,4 @@ class ReadingPlanFactory extends Factory
             'status' => ReadingPlanStatus::Planned,
         ]);
     }
-
 }

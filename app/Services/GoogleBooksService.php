@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Services;
+
 use Illuminate\Support\Facades\Http;
 
 class GoogleBooksService
@@ -9,13 +11,12 @@ class GoogleBooksService
         $response = Http::get(
             'https://www.googleapis.com/books/v1/volumes',
             [
-                'q' => 'isbn:' . $isbn,
+                'q' => 'isbn:'.$isbn,
                 'key' => config('services.google_books.key'),
             ]
         );
 
-
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             logger()->error($response->json());
 
             return null;
@@ -50,11 +51,11 @@ class GoogleBooksService
         }
 
         if (preg_match('/^\d{4}$/', $publishedDate)) {
-            return $publishedDate . '-01-01';
+            return $publishedDate.'-01-01';
         }
 
         if (preg_match('/^\d{4}-\d{2}$/', $publishedDate)) {
-            return $publishedDate . '-01';
+            return $publishedDate.'-01';
         }
 
         return $publishedDate;

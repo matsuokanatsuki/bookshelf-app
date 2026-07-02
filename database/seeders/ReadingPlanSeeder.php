@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\Book;
 use App\Models\ReadingPlan;
 use App\Models\User;
-use App\Models\Book;
+use Illuminate\Database\Seeder;
 
 class ReadingPlanSeeder extends Seeder
 {
@@ -23,7 +22,7 @@ class ReadingPlanSeeder extends Seeder
         $book6 = Book::where('title', 'サピエンス全史')->first();
         $book7 = Book::where('title', 'コンテナ物語')->first();
 
-        //5日前、3日前、1日前、当日、1日後、3日後、5日後のリーディングプランを作成
+        // 5日前、3日前、1日前、当日、1日後、3日後、5日後のリーディングプランを作成
         $readingPlan1 = ReadingPlan::create([
             'user_id' => $user->id,
             'book_id' => $book1->id,

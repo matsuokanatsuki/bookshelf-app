@@ -1,11 +1,9 @@
 <?php
-namespace App\Services;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Collection;
-use App\Models\User;
-use App\Models\Review;
-use App\Models\Book;
 
+namespace App\Services;
+
+use App\Models\User;
+use Illuminate\Support\Collection;
 
 class ReportService
 {
@@ -14,10 +12,10 @@ class ReportService
         $reviews = $this->getReviews($user);
 
         return [
-            'summary'             => $this->summary($reviews),
+            'summary' => $this->summary($reviews),
             'rating_distribution' => $this->ratingDistribution($reviews),
-            'top_rated_books'     => $this->topRatedBooks($reviews),
-            'genre_ratings'       => $this->genreRatings($reviews),
+            'top_rated_books' => $this->topRatedBooks($reviews),
+            'genre_ratings' => $this->genreRatings($reviews),
         ];
     }
 
@@ -40,7 +38,7 @@ class ReportService
             'books_read' => $reviews->pluck('book_id')->unique()->count(),
             'average_rating' => round($reviews->avg('rating'), 2),
         ];
-  
+
     }
 
     // レビューの評価分布を計算
@@ -65,6 +63,7 @@ class ReportService
             ->take(5)
             ->map(function ($review) {
                 $book = $review->book;
+
                 return [
                     'id' => $book->id,
                     'title' => $book->title,
@@ -74,33 +73,34 @@ class ReportService
             });
     }
 
-    //ジャンルごとの平均評価を計算
-        private function genreRatings(Collection $reviews): Collection
-        {
-            //レビューを「ジャンル × 評価」のCollectionへ展開
-            return $reviews
-                ->flatMap(function ($review) {
-                    return $review->book->genres->map(function ($genre) use ($review) {
-                        return [
-                            'genre' => $genre,
-                            'rating' => $review->rating,
-                        ];
-                    });
-                })
-                ->groupBy(function ($item) {
-                    return $item['genre']->id;
-                })
-                ->map(function ($items) {
-                    $genre = $items->first()['genre'];
+    // ジャンルごとの平均評価を計算
+    private function genreRatings(Collection $reviews): Collection
+    {
+        // レビューを「ジャンル × 評価」のCollectionへ展開
+        return $reviews
+            ->flatMap(function ($review) {
+                return $review->book->genres->map(function ($genre) use ($review) {
                     return [
-                        'id' => $genre->id,
-                        'name' => $genre->name,
-                        'average_rating' => round($items->avg('rating'), 2),
-                        'count' => $items->count(),
+                        'genre' => $genre,
+                        'rating' => $review->rating,
                     ];
-                })
-                ->sortByDesc('average_rating')
-                ->take(5)
-                ->values();
-        }
+                });
+            })
+            ->groupBy(function ($item) {
+                return $item['genre']->id;
+            })
+            ->map(function ($items) {
+                $genre = $items->first()['genre'];
+
+                return [
+                    'id' => $genre->id,
+                    'name' => $genre->name,
+                    'average_rating' => round($items->avg('rating'), 2),
+                    'count' => $items->count(),
+                ];
+            })
+            ->sortByDesc('average_rating')
+            ->take(5)
+            ->values();
+    }
 }

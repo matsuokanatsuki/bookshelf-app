@@ -6,9 +6,9 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Genre;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Services\GoogleBooksService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -112,7 +112,7 @@ class BookController extends Controller
     {
         $book = $googleBooksService->searchByIsbn($isbn);
 
-        if (!$book) {
+        if (! $book) {
             return response()->json(['message' => '書籍が見つかりませんでした。'], 404);
         }
 

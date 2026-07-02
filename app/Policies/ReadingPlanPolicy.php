@@ -5,10 +5,8 @@ namespace App\Policies;
 use App\Models\ReadingPlan;
 use App\Models\User;
 
-
 class ReadingPlanPolicy
 {
-    
     /**
      * 更新権限の判定
      */

@@ -26,7 +26,7 @@ class ReviewSeeder extends Seeder
         // 他ユーザーのレビュー
         foreach ($books as $book) {
             $users->where('id', '!=', $mainUser->id)
-                ->random(rand(1,3))
+                ->random(rand(1, 3))
                 ->each(function ($user) use ($book) {
                     Review::factory()->create([
                         'user_id' => $user->id,
