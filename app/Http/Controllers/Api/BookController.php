@@ -16,7 +16,10 @@ class BookController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $books = Book::with('genres')->withAvg('reviews', 'rating')->latest()->paginate(10);
+        $books = Book::with('genres')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->latest()->paginate(10);
 
         return BookResource::collection($books);
     }
@@ -26,7 +29,10 @@ class BookController extends Controller
      */
     public function show(Book $book): BookResource
     {
-        $book->load('genres', 'creator', 'reviews.user', 'reviews.likedByUsers');
+        $book->load('genres', 'creator', 'reviews.user', 'reviews.likedByUsers')
+            ->loadCount('reviews')
+            ->loadAvg('reviews', 'rating');
+            
 
         return new BookResource($book);
     }
@@ -45,7 +51,7 @@ class BookController extends Controller
             'published_at' => $validatedData['published_at'] ?? null,
             'description' => $validatedData['description'] ?? null,
             'image_url' => $validatedData['image_url'] ?? null,
-            'created_by' => $validatedData['created_by'],
+            'created_by' => auth()->id(),
         ]);
 
         if (isset($validatedData['genres'])) {

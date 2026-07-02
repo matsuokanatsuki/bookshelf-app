@@ -19,7 +19,7 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'author' => $this->author,
             'isbn' => $this->isbn,
-            'published_at' => $this->published_at,
+            'published_at' => $this->published_at?->toDateString(),
             'description' => $this->description,
             'image_url' => $this->image_url,
             'genres' => $this->genres->pluck('name')->values(),
@@ -28,6 +28,8 @@ class BookResource extends JsonResource
             'created_by' => $this->creator ? $this->creator->name : null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+
+            'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
     }
 }
