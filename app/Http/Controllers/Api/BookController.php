@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ApiStoreBookRequest;
 use App\Http\Requests\Api\ApiUpdateBookRequest;
@@ -14,12 +15,16 @@ class BookController extends Controller
     /**
      * 一覧取得
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $books = Book::with('genres')
+        $books = Book::query()
+            ->keyword($request->keyword)
+            ->genre($request->genre)
+            ->with('genres')
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
-            ->latest()->paginate(10);
+            ->latest()
+            ->paginate($request->per_page ?? 10);
 
         return BookResource::collection($books);
     }
