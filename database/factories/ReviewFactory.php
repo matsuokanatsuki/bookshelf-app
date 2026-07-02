@@ -19,11 +19,21 @@ class ReviewFactory extends Factory
      */
     public function definition(): array
     {
+        $comments = [
+            1 => '期待外れでした。',
+            2 => 'あまり面白くなかったです。',
+            3 => '普通でしたが、参考になりました。',
+            4 => '面白く、勉強になりました。',
+            5 => '素晴らしい本で、非常に参考になりました！',
+        ];
+
+        $rating = $this->faker->numberBetween(1, 5);
+
         return [
             'user_id' => User::factory(),
             'book_id' => Book::factory(),
-            'rating' => $this->faker->numberBetween(1, 5),
-            'comment' => $this->faker->paragraph(),
+            'rating' => $rating,
+            'comment' => $comments[$rating]
         ];
     }
 }

@@ -143,7 +143,7 @@ class ApiTest extends TestCase
             'title' => 'New Book',
             'author' => 'Author Name',
             'isbn' => '1234567890123',
-            'published_at' => '2023-01-01',
+            'published_at' => '2023-01-01 00:00:00',
             'description' => 'Book description',
             'image_url' => 'https://example.com/image.jpg',
             'created_by' => $user->id,
@@ -241,7 +241,7 @@ class ApiTest extends TestCase
             'title' => 'Updated Title',
             'author' => 'Updated Author',
             'isbn' => '1234567890123',
-            'published_at' => '2023-02-01',
+            'published_at' => '2023-02-01 00:00:00',
         ]);
     }
 
