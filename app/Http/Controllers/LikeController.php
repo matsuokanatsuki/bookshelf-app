@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class LikeController extends Controller
 {
-    public function toggle(Review $review)
+    public function toggle(Review $review): RedirectResponse
     {
         $user = Auth::user();
 

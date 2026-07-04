@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
-    public function index(NotificationService $service)
+    public function index(NotificationService $service): View
     {
         $notifications = $service->getUserNotifications(Auth::user());
 
@@ -17,7 +19,7 @@ class NotificationController extends Controller
     public function markAsRead(
         string $notificationId,
         NotificationService $service
-    ) {
+    ): RedirectResponse {
         $service->markAsRead(
             Auth::user(),
             $notificationId

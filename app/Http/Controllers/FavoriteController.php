@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class FavoriteController extends Controller
 {
-    public function toggle(Book $book)
+    public function toggle(Book $book): RedirectResponse
     {
         $user = Auth::user();
 
@@ -21,7 +23,7 @@ class FavoriteController extends Controller
         return redirect()->back();
     }
 
-    public function index()
+    public function index(): View
     {
         $books = Auth::user()->favoriteBooks()->with('genres')->withAvg('reviews', 'rating')->latest()->paginate(10);
 

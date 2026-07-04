@@ -27,4 +27,19 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Render an exception into an HTTP response.
+     */
+    public function render($request, Throwable $e)
+    {
+        if ($request->is('api/*') && $e instanceof ModelNotFoundException) {
+            return response()->json([
+                'error' => 'お問い合わせが見つかりませんでした。',
+            ], 404);
+        }    
+
+        return parent::render($request, $e);
+    }
+
 }

@@ -9,6 +9,8 @@ use App\Http\Requests\Api\ApiUpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -19,7 +21,10 @@ class BookController extends Controller
     {
         $books = Book::query()
             ->keyword($request->keyword)
-            ->genre($request->genre)
+            ->genre($request->filled('genre')
+                    ? $request->integer('genre')
+                    : null
+            )
             ->with('genres')
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
@@ -44,7 +49,7 @@ class BookController extends Controller
     /**
      * 書籍登録
      */
-    public function store(ApiStoreBookRequest $request)
+    public function store(ApiStoreBookRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
 
@@ -73,7 +78,7 @@ class BookController extends Controller
     /**
      * 書籍情報更新
      */
-    public function update(ApiUpdateBookRequest $request, Book $book)
+    public function update(ApiUpdateBookRequest $request, Book $book): JsonResponse
     {
         $this->authorize('update', $book);
 
@@ -102,7 +107,7 @@ class BookController extends Controller
     /**
      * 書籍情報削除
      */
-    public function destroy(Book $book)
+    public function destroy(Book $book): Response
     {
         $this->authorize('delete', $book);
 
