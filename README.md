@@ -10,6 +10,8 @@
 外部アプリケーション向けの公開API（JSON）も提供します。
 
 ## ER図
+<img width="1091" height="991" alt="bookshelf drawio (6)" src="https://github.com/user-attachments/assets/c5d97aeb-4b79-4514-b055-9936da762130" />
+
 
 ## 環境構築手順
 1. **リポジトリをクローン**
@@ -92,15 +94,15 @@
 松岡奈津紀
 
 ## APIエンドポイント一覧（メソッド・パス・概要）
-認証不要の公開APIです。全エンドポイントは `/api/v1` プレフィックス配下に定義されています。
+書籍データ表示（GET）は公開API、書き込み系（POST/PUT/DELETE）は認証必須です。全エンドポイントは `/api/v1` プレフィックス配下に定義されています。
 
-| HTTPメソッド | URI | 概要 |
-|---|---|---|
-| GET | /api/v1/books | 書籍一覧（検索・ページネーション付き） |
-| GET | /api/v1/books/{book} | 書籍データ詳細 |
-| POST | /api/v1/books | 書籍データ新規作成 |
-| PUT | /api/v1/books/{book} | 書籍データ更新 |
-| DELETE | /api/v1/books/{book} | 書籍データ削除 |
+| HTTPメソッド | URI | 概要 | 認証 |
+|---|---|---|---|
+| GET | /api/v1/books | 書籍一覧（検索・ページネーション付き） | 不要 |
+| GET | /api/v1/books/{book} | 書籍データ詳細 | 不要 |
+| POST | /api/v1/books | 書籍データ新規作成 | Sanctum 必須 |
+| PUT | /api/v1/books/{book} | 書籍データ更新 | Sanctum + BookPolicy（所有者のみ） |
+| DELETE | /api/v1/books/{book} | 書籍データ削除 | Sanctum + BookPolicy（所有者のみ） |
 
 ## 開発環境URL
 http://localhost
