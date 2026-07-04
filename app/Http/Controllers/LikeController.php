@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {

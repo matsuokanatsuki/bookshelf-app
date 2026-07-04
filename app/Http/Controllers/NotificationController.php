@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\NotificationService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class NotificationController extends Controller

@@ -37,9 +37,8 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => 'お問い合わせが見つかりませんでした。',
             ], 404);
-        }    
+        }
 
         return parent::render($request, $e);
     }
-
 }
