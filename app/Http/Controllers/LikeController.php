@@ -12,11 +12,7 @@ class LikeController extends Controller
     {
         $user = Auth::user();
 
-        if ($review->likedByUsers()->where('review_id', $review->id)->exists()) {
-            $review->likedByUsers()->detach($review->id);
-        } else {
-            $review->likedByUsers()->attach($review->id);
-        }
+        $review->likedByUsers()->toggle($user->id);
 
         return back();
     }
