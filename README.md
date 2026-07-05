@@ -15,20 +15,22 @@
 
 ## 環境構築手順
 1. **リポジトリをクローン**
-    ```https://github.com/matsuokanatsuki/bookshelf-app.git```
+    ```
+   git clone https://github.com/matsuokanatsuki/bookshelf-app.git
+    ```
 
-2. **Laravel Sailをインストール**
+2. **.envファイルの準備**
+
     プロジェクトディレクトリに移動
-    ```cd bookshelf-app```
-
-    Laravel Sailをインストール<br>
-    ```docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html -e COMPOSER_CACHE_DIR=/tmp/composer_cache laravelsail/php82-composer:latest composer require laravel/sail --dev```
-
-    Sailの設定ファイルをパブリッシュ（MySQLを選択）<br>
-    ```docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html -e COMPOSER_CACHE_DIR=/tmp/composer_cache laravelsail/php82-composer:latest php artisan sail:install --with=mysql```
-
-3. **.env ファイル内の以下のDB接続情報を確認・設定**
-    以下のように設定します。
+    ```
+   cd bookshelf-app
+    ```
+    `.env.example` をコピーして `.env` を作成します。
+   
+    ```
+   cp .env.example .env
+    ```
+    `.env `ファイル内の以下のDB接続情報を確認・設定します。`.env.example` のデフォルト値はSail向けではないため、以下のように変更してください。
     ```
     DB_CONNECTION=mysql
     DB_HOST=mysql
@@ -38,39 +40,74 @@
     DB_PASSWORD=password
     ```
 
+3. **Composer依存パッケージのインストール**
+
+    プロジェクトの初回セットアップ時は、`vendor` ディレクトリが存在しないため `sail` コマンドを使用できません。
+    以下のDockerコマンドを実行して、コンテナ内で `composer install` を実行します。
+
+    Laravel Sailをインストール
+    ```
+   docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html -e COMPOSER_CACHE_DIR=/tmp/composer_cache laravelsail/php82-composer:latest composer require laravel/sail --dev
+    ```
+
+    Sailの設定ファイルをパブリッシュ（MySQLを選択）
+   
+    ```
+   docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html -e COMPOSER_CACHE_DIR=/tmp/composer_cache laravelsail/php82-composer:latest php artisan sail:install --with=mysql
+    ```
+
 4. **Sailの起動とエイリアス設定**
     Sailをバックグラウンドで起動
-    ```./vendor/bin/sail up -d```
+    ```
+   ./vendor/bin/sail up -d
+    ```
 
-    エイリアスを設定して 'sail' だけでコマンドを実行できるようにする<br>
-    ```echo "alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'" >> ~/.zshrc```
+    エイリアスを設定して 'sail' だけでコマンドを実行できるようにする（推奨）
+    ```
+   alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+    ```
 
-    シェルを再起動するか、新しいターミナルを開いてエイリアスを有効にする<br>
-    ```exec $SHELL```
+5. **アプリケーションキーの生成**
+   
+    ルートで以下のコマンドを実行します。
+   ```
+   sail artisan key:generate
+   ```
 
-5. **フロントエンドのセットアップ (Vite & Tailwind CSS)**
+7. **フロントエンドのセットアップ (Vite & Tailwind CSS)**
     ```
     sail npm install
     sail npm install alpinejs
     sail npm install -D tailwindcss@^3.4.0 @tailwindcss/forms postcss autoprefixer
-    sail npm run dev
     ```
 
-6. **アプリケーションキーの生成**
-    ルートで以下のコマンドを実行します。
-    ``sail artisan key:generate``
+   Vite開発サーバーの起動
+   ```
+   sail npm run dev
+   ```
+    `npm run dev` は別のターミナル等で開発中は起動したままにしてください。
 
-7. **データベースのマイグレーションと初期データ投入**
-    以下のコマンドでテーブルを作成し、初期データを投入します。
-    ```sail artisan migrate --seed```
-    ※既存のデータベースをリセットしたい場合は以下を実行してください。
-    ```sail artisan migrate:fresh --seed```
+8. **データベースのマイグレーションと初期データ投入**
+    
+    以下のコマンドでテーブルを作成し、ダミーデータを投入します。
 
-8. **アプリケーションへのアクセス**
+    ```bash
+    sail artisan migrate:fresh --seed
+    ```
+
+9. **アプリケーションへのアクセス**
     ブラウザで``http://localhost``にアクセスします。
 
 ### テスト実行
-```sail artisan test```
+```
+sail artisan test
+```
+
+カバレッジ付きで実行する場合:
+
+```
+sail artisan test --coverage
+```
 
 ## 使用技術
 ### バックエンド
