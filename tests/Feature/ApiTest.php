@@ -162,7 +162,6 @@ class ApiTest extends TestCase
             'author' => '',
             'isbn' => '',
             'published_at' => '',
-            'genres' => [],
             'created_by' => $user->id,
         ]);
         $response->assertStatus(422); // バリデーションエラー
@@ -171,7 +170,6 @@ class ApiTest extends TestCase
             'title' => '',
             'author' => '',
             'isbn' => '',
-            'genres' => [],
             'published_at' => '',
             'created_by' => $user->id,
         ]);
